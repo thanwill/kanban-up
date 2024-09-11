@@ -3,10 +3,12 @@ from django.db import models
 
 class Task(models.Model):
     class Status(models.TextChoices):
-        PENDENTE = 'pendente', 'Pendente'
-        ANDAMENTO = 'andamento', 'Em andamento'
-        CONCLUIDA = 'concluida', 'Concluída'
-        CANCELADA = 'cancelada', 'Cancelada'
+        PENDENTE = 'TODO', 'Em andamento'
+        CONCLUIDA = 'DONE', 'Concluída'
+        CANCELADA = 'CANCELLED', 'Cancelada'
+        BLOQUEADA = 'BLOCKED', 'Bloqueada'
+        BACKLOG = 'BACKLOG', 'Backlog'
+
 
     title = models.CharField(max_length=255)
     description = models.TextField()

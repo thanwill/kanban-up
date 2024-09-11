@@ -15,15 +15,23 @@
                 </tr>
                 </thead>
                 <tbody>
-
-                </tbody>
+                {% for task in tasks %}
+                    <tr>
+                        <td>{{ task.title }}</td>
+                        <td>{{ task.description }}</td>
+                        <td>
+                            <a href="#" class="btn btn-primary">Editar</a>
+                            <a href="#" class="btn btn-danger">Excluir</a>
+                        </td>
+                    </tr>
+                {% endfor %}
             </table>
         </div>
         <div class="col-lg-3 offset-lg-1">
             <h1 class="text-start mb-5">Informações</h1>
-            <span class="badge bg-primary">Tarefas: 0</span>
-            <span class="badge bg-success">Concluídas: 0</span>
-            <span class="badge bg-danger">Pendentes: 0</span>
+            <span class="badge bg-primary">Total: {{ total_tasks }}</span>
+            <span class="badge bg-success">Concluídas: {{ done_tasks_count }}</span>
+            <span class="badge bg-danger">Pendentes: {{ pending_tasks_count }}</span>
             <hr>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModalTask">
                 Nova tarefa

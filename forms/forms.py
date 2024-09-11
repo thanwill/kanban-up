@@ -20,10 +20,11 @@ class TaskForm(forms.Form):
     )
     status = forms.ChoiceField(
         choices=(
-            ('pendente', 'Pendente'),
-            ('andamento', 'Em andamento'),
-            ('concluida', 'Concluída'),
-            ('cancelada', 'Cancelada'),
+            ('TODO', 'Em andamento'),
+            ('DONE', 'Concluída'),
+            ('CANCELLED', 'Cancelada'),
+            ('BLOCKED', 'Bloqueada'),
+            ('BACKLOG', 'Backlog'),
         ),
         widget=forms.Select(attrs={
             'class': 'form-control',

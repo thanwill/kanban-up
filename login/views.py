@@ -1,9 +1,10 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
 from forms.forms import LoginForm
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
+
 
 @csrf_exempt
 def index(request):
@@ -22,7 +23,7 @@ def index(request):
                 user = authenticate(request, username=user.username, password=password)
                 if user is not None:
                     login(request, user)  # Loga o usuário
-                    return redirect('/')  # Redireciona para outra página após login
+                    return redirect('/tasks')  # Redireciona para outra página após login
                 else:
                     print("Senha incorreta")
             except User.DoesNotExist:
