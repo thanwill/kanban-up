@@ -2,6 +2,10 @@
 
 {% block title %}Edição da tarefa{% endblock %}
 
+{% block title_page %}
+    <h5 class="text-start mb-3">Edição da tarefa</h5>
+{% endblock %}
+
 {% block content_task %}
 
     <form method="post" action="{% url 'tasks:edit_task' task.id %}">
@@ -31,4 +35,15 @@
 
     </form>
 
+{% endblock %}
+
+<!-- Cria uma lista de comentários-->
+
+{% block content_info %}
+    <h5 class="text-start mb-5">Comentários</h5>
+    <ul class="list-group">
+        {% for comment in task.comments.all %}
+            <li class="list-group-item">{{ comment.text }}</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

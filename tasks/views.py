@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 
 from forms.forms import TaskForm
-from .models import Task
+from .models import Task, Comment
 
 
 # Create your views here.
@@ -16,9 +16,7 @@ def index(request):
         'tasks': tasks,
         'users': users,
         'form': form
-
     }
-
     return render(request, 'tasks/list.html', context)
 
 
@@ -46,6 +44,9 @@ def task_list(request):
 @login_required
 def edit_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
+    comments = Comment.objects.filter(task=task)
+    comment = comments.first() if comments else None  # Se não houver comentários, comment será None
+
     if request.method == 'POST':
         form = TaskForm(request.POST, instance=task)
         if form.is_valid():
@@ -53,15 +54,23 @@ def edit_task(request, task_id):
             return redirect('tasks:task_list')  # Certifique-se de que o redirecionamento está correto
     else:
         form = TaskForm(instance=task)
-    return render(request, 'tasks/edit.html', {'form': form, 'task': task})
+
+    context = {
+        'form': form,
+        'task': task,
+        'comment': comment
+    }
+    return render(request, 'tasks/edit.html', context)
 
 
+@login_required()
 def delete_task(request, task_id):
     task = Task.objects.get(pk=task_id)
     task.delete()
     return redirect('tasks:index')
 
 
+@login_required()
 # alterar o usuário da tarefa
 def change_user(request, task_id, user_id):
     task = get_object_or_404(Task, pk=task_id)
@@ -91,3 +100,11 @@ def add_task(request):
     else:
         print("Método de requisição não é POST")
     return redirect('tasks:index')
+
+
+@login_required
+def add_comment(request, task_id):
+    task = get_object_or_404(Task, pk=task_id)
+    comment = request.POST.get('comment')
+    task.comment_set.create(comment=comment, user=request.user)
+    return redirect('tasks:edit_task', task_id=task_id)

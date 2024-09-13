@@ -4,8 +4,10 @@
 
 {% block content %}
     <div class="row mt-5">
-        <div class="col-lg-6 offset-lg-1">
-            <h1 class="text-start mb-5">Tasks</h1>
+        <div class="col-sm-10 offset-sm-1 col-md-6 offset-lg-1">
+            {% block title_page %}
+                <h5 class="text-start mb-3">Lista de tarefas</h5>
+            {% endblock %}
             {% block content_task %}
             {% endblock %}
         </div>
@@ -13,7 +15,6 @@
             {% block content_info %}
             {% endblock %}
         </div>
-
     </div>
     <div class="modal fade" id="createModalTask" tabindex="-1" aria-labelledby="createModalTasklLabel"
          aria-hidden="true">
@@ -57,5 +58,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}

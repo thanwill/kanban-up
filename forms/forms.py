@@ -137,3 +137,17 @@ class RegisterForm(forms.Form):
 
     def save(self):
         pass
+
+
+class CommentForm(forms.Form):
+    comment = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'class': 'form-control',
+            'id': 'comment',
+            'rows': 3,
+            'placeholder': 'Digite seu comentário',
+        })
+    )
+
+    def save(self):
+        pass
