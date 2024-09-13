@@ -12,6 +12,7 @@
                     <th>Nome</th>
                     <th>Descrição</th>
                     <th>Opções</th>
+                    <th>Responsável</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -19,10 +20,28 @@
                     <tr>
                         <td>{{ task.title }}</td>
                         <td>{{ task.description }}</td>
+                        <!-- botão para trocar o usuário da taréfa-->
                         <td>
-                            <a href="#" class="btn btn-primary">Editar</a>
-                            <a href="#" class="btn btn-danger">Excluir</a>
+                            <a href="{% url 'tasks:delete_task' task.id %}" class="btn btn-danger">Excluir</a>
                         </td>
+                        <td>
+                            <form method="post" action="{% url 'tasks:change_user' task.id 0 %}"
+                                  style="display:inline;">
+                                {% csrf_token %}
+                                <label>
+                                    <select name="user_id" class="form-select"
+                                            onchange="this.form.action='{% url 'tasks:change_user' task.id 0 %}'.replace('0', this.value); this.form.submit()">
+                                        {% for user in users %}
+                                            <option value="{{ user.id }}"
+                                                    {% if user.id == task.user.id %}selected{% endif %}>
+                                                {{ user.username }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </form>
+                        </td>
+
                     </tr>
                 {% endfor %}
             </table>
@@ -36,6 +55,7 @@
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModalTask">
                 Nova tarefa
             </button>
+
         </div>
 
     </div>
@@ -81,4 +101,5 @@
             </div>
         </div>
     </div>
+
 {% endblock %}

@@ -62,13 +62,20 @@ def delete_task(request, task_id):
     return redirect('tasks:index')
 
 
+# alterar o usuário da tarefa
+def change_user(request, task_id, user_id):
+    task = Task.objects.get(pk=task_id)
+    user = User.objects.get(pk=user_id)
+    task.user = user
+    task.save()
+    return redirect('tasks:index')
+
+
 @login_required
 def add_task(request):
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
-            print("Formulário é válido")
-            print("Dados do formulário:", form.cleaned_data)
             task = Task(
                 title=form.cleaned_data['title'],
                 description=form.cleaned_data['description'],
