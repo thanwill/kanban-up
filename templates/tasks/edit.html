@@ -1,0 +1,34 @@
+{% extends "tasks/index.html" %}
+
+{% block title %}Edição da tarefa{% endblock %}
+
+{% block content_task %}
+
+    <form method="post" action="{% url 'tasks:edit_task' task.id %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="task_title" class="form-label">Título</label>
+            {{ form.title }}
+        </div>
+        <div class="mb-3">
+            <label for="task_description" class="form-label">Descrição</label>
+            {{ form.description }}
+        </div>
+        <div class="mb-3">
+            <label for="task_users" class="form-label">Responsável</label>
+            {{ form.user }}
+        </div>
+        <div class="mb-3">
+            <label for="task_status" class="form-label">Etapa</label>
+            {{ form.status }}
+        </div>
+        <div class="mb-3">
+            <label for="task_due_date" class="form-label
+            ">Data de Vencimento</label>
+            {{ form.due_date }}
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+
+    </form>
+
+{% endblock %}

@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from forms.forms import TaskForm
 from .models import Task
@@ -12,7 +12,7 @@ def index(request):
     users = User.objects.all()
     tasks = Task.objects.all()
     form = TaskForm()
-    return render(request, 'tasks/index.html', {'tasks': tasks, 'users': users, 'form': form})
+    return render(request, 'tasks/list.html', {'tasks': tasks, 'users': users, 'form': form})
 
 
 @login_required
@@ -27,33 +27,20 @@ def task_list(request):
         'done_tasks_count': done_tasks_count,
         'pending_tasks_count': pending_tasks_count,
     }
-    return render(request, 'tasks/index.html', context)
+    return render(request, 'tasks/list.html', context)
 
 
+@login_required
 def edit_task(request, task_id):
-    task = Task.objects.get(pk=task_id)
+    task = get_object_or_404(Task, id=task_id)
     if request.method == 'POST':
-        form = TaskForm(request.POST)
+        form = TaskForm(request.POST, instance=task)
         if form.is_valid():
-            task.title = form.cleaned_data['title']
-            task.description = form.cleaned_data['description']
-            task.status = form.cleaned_data['status']
-            task.user = form.cleaned_data['user']
-            task.due_date = form.cleaned_data['due_date']
-            task.save()
-            return redirect('tasks:index')
-        else:
-            print("Formulário não é válido")
-            print("Erros do formulário:", form.errors)
+            form.save()
+            return redirect('tasks:task_list')  # Certifique-se de que o redirecionamento está correto
     else:
-        form = TaskForm({
-            'title': task.title,
-            'description': task.description,
-            'status': task.status,
-            'user': task.user,
-            'due_date': task.due_date,
-        })
-    return render(request, 'tasks/edit_task.html', {'form': form, 'task': task})
+        form = TaskForm(instance=task)
+    return render(request, 'tasks/edit.html', {'form': form, 'task': task})
 
 
 def delete_task(request, task_id):

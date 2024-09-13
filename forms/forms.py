@@ -1,8 +1,10 @@
 from django import forms
 from django.contrib.auth.models import User
 
+from tasks.models import Task
 
-class TaskForm(forms.Form):
+
+class TaskForm(forms.ModelForm):
     title = forms.CharField(
         max_length=255,
         widget=forms.TextInput(attrs={
@@ -46,6 +48,10 @@ class TaskForm(forms.Form):
             'type': 'date',
         })
     )
+
+    class Meta:
+        model = Task
+        fields = ['title', 'description', 'status', 'user', 'due_date']
 
     def __init__(self, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)

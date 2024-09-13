@@ -6,45 +6,8 @@
     <div class="row mt-5">
         <div class="col-lg-6 offset-lg-1">
             <h1 class="text-start mb-5">Tasks</h1>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Descrição</th>
-                    <th>Opções</th>
-                    <th>Responsável</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for task in tasks %}
-                    <tr>
-                        <td>{{ task.title }}</td>
-                        <td>{{ task.description }}</td>
-                        <!-- botão para trocar o usuário da taréfa-->
-                        <td>
-                            <a href="{% url 'tasks:delete_task' task.id %}" class="btn btn-danger">Excluir</a>
-                        </td>
-                        <td>
-                            <form method="post" action="{% url 'tasks:change_user' task.id 0 %}"
-                                  style="display:inline;">
-                                {% csrf_token %}
-                                <label>
-                                    <select name="user_id" class="form-select"
-                                            onchange="this.form.action='{% url 'tasks:change_user' task.id 0 %}'.replace('0', this.value); this.form.submit()">
-                                        {% for user in users %}
-                                            <option value="{{ user.id }}"
-                                                    {% if user.id == task.user.id %}selected{% endif %}>
-                                                {{ user.username }}
-                                            </option>
-                                        {% endfor %}
-                                    </select>
-                                </label>
-                            </form>
-                        </td>
-
-                    </tr>
-                {% endfor %}
-            </table>
+            {% block content_task %}
+            {% endblock %}
         </div>
         <div class="col-lg-3 offset-lg-1">
             <h1 class="text-start mb-5">Informações</h1>
