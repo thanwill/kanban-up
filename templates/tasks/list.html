@@ -27,7 +27,7 @@
                                 {% for user in users %}
                                     <option value="{{ user.id }}"
                                             {% if user.id == task.user.id %}selected{% endif %}>
-                                        {{ user.username }}
+                                        {{ user.first_name }} {{ user.last_name }}
                                     </option>
                                 {% endfor %}
                             </select>
@@ -52,4 +52,23 @@
             </tr>
         {% endfor %}
     </table>
+{% endblock %}
+
+{% block content_info %}
+    <h1 class="text-start mb-5">Informações</h1>
+    <!-- Cria filtro por status -->
+    <form method="get">
+        <select name="status" class="form-select" onchange="this.form.submit()">
+            <option value="">Todos</option>
+            {% for status in status_list %}
+                <option value="{{ status }}" {% if status == selected_status %}selected{% endif %}>
+                    {{ status }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+    <hr>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModalTask">
+        Nova tarefa
+    </button>
 {% endblock %}

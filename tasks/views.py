@@ -12,32 +12,33 @@ def index(request):
     users = User.objects.all()
     tasks = Task.objects.all()
     form = TaskForm()
+    context = {
+        'tasks': tasks,
+        'users': users,
+        'form': form
+
+    }
+
+    return render(request, 'tasks/list.html', context)
+
+
+@login_required
+def task_list(request):
+    tasks = Task.objects.all()
+    users = User.objects.all()
     status_list = Task.objects.values_list('status', flat=True).distinct()
     selected_status = request.GET.get('status', '')
 
     if selected_status:
         tasks = tasks.filter(status=selected_status)
 
+    form = TaskForm()
     context = {
         'tasks': tasks,
         'users': users,
         'form': form,
         'status_list': status_list,
         'selected_status': selected_status
-    }
-
-    return render(request, 'tasks/list.html', context)
-
-@login_required
-def task_list(request):
-    tasks = Task.objects.all()
-    users = User.objects.all()
-
-    form = TaskForm()
-    context = {
-        'tasks': tasks,
-        'users': users,
-        'form': form,
     }
     return render(request, 'tasks/list.html', context)
 
@@ -63,8 +64,8 @@ def delete_task(request, task_id):
 
 # alterar o usuário da tarefa
 def change_user(request, task_id, user_id):
-    task = Task.objects.get(pk=task_id)
-    user = User.objects.get(pk=user_id)
+    task = get_object_or_404(Task, pk=task_id)
+    user = get_object_or_404(User, pk=user_id)
     task.user = user
     task.save()
     return redirect('tasks:index')
