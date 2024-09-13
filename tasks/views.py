@@ -12,13 +12,27 @@ def index(request):
     users = User.objects.all()
     tasks = Task.objects.all()
     form = TaskForm()
-    return render(request, 'tasks/list.html', {'tasks': tasks, 'users': users, 'form': form})
+    status_list = Task.objects.values_list('status', flat=True).distinct()
+    selected_status = request.GET.get('status', '')
 
+    if selected_status:
+        tasks = tasks.filter(status=selected_status)
+
+    context = {
+        'tasks': tasks,
+        'users': users,
+        'form': form,
+        'status_list': status_list,
+        'selected_status': selected_status
+    }
+
+    return render(request, 'tasks/list.html', context)
 
 @login_required
 def task_list(request):
     tasks = Task.objects.all()
     users = User.objects.all()
+
     form = TaskForm()
     context = {
         'tasks': tasks,
