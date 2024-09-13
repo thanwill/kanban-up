@@ -18,14 +18,12 @@ def index(request):
 @login_required
 def task_list(request):
     tasks = Task.objects.all()
-    total_tasks = tasks.count()
-    done_tasks_count = tasks.filter(status='DONE').count()
-    pending_tasks_count = tasks.filter(status='TODO').count()
+    users = User.objects.all()
+    form = TaskForm()
     context = {
         'tasks': tasks,
-        'total_tasks': total_tasks,
-        'done_tasks_count': done_tasks_count,
-        'pending_tasks_count': pending_tasks_count,
+        'users': users,
+        'form': form,
     }
     return render(request, 'tasks/list.html', context)
 
