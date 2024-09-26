@@ -16,7 +16,6 @@ def index(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
 
-            # Autenticar o usuário (o Django autentica normalmente pelo username, então vamos buscar o usuário pelo email)
             try:
                 user = User.objects.get(email=email)
                 user = authenticate(request, username=user.username, password=password)
@@ -54,7 +53,6 @@ def register(request):
 
     return render(request, 'login/register.html', {'form': form})
 
-
 def logout_view(request):
     logout(request)
-    return redirect('/')
+    return redirect('login')

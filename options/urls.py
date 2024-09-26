@@ -19,7 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('tasks.urls')),  # Rota para o pacote tasks
+    path('', include('login.urls')),  # Rota para o pacote tasks
     path('login/', include('login.urls')),  # Rota para o pacote login
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('tarefas/', include('tasks.urls')),  # Rota para o pacote tasks
 ]
