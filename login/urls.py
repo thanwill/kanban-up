@@ -5,4 +5,6 @@ from .views import index, register  # Certifique-se de que está importando a vi
 urlpatterns = [
     path('', index, name='login'),
     path('register/', register, name='register'),
+    path('logout/', index, name='logout'),
+
 ]

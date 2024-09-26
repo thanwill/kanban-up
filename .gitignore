@@ -1,50 +1,22 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+# Exemplo de .gitignore
 
-# C extensions
-*.so
+# Ignorar arquivos de configuração do sistema operacional
+.DS_Store
+Thumbs.db
 
-# Distribution / packaging
-.Python
-env/
+# Ignorar arquivos de ambiente virtual
 venv/
-ENV/
-env.bak/
-venv.bak/
-*.egg
-*.egg-info/
-dist/
-build/
-*.whl
+env/
 
-# Django stuff:
-*.log
-*.pot
+# Ignorar arquivos de compilação
 *.pyc
-*.pyo
-*.pyd
-*.sqlite3
+__pycache__/
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar arquivos de banco de dados
 db.sqlite3
 
-# Django migrations
-*/migrations/*
-
-# Media
-media/
-
-# Static files
-staticfiles/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# VS Code
-.vscode/
-
-# PyCharm
-.idea/
-
-# macOS
-.DS_Store
+# Ignorar a pasta options (remova ou comente esta linha se existir)
+# options/
